@@ -66,6 +66,12 @@ Try our demo on [Demo-Dolphin](http://115.190.42.15:8888/dolphin/).
    ```bash
    pip install -r requirements.txt
    ```
+   > **Note for PDF Processing**: If you intend to process PDF files (e.g., via the API or other scripts that might use `pdf2image`), you will also need to install `poppler-utils`.
+   > On Debian/Ubuntu, this can be done with:
+   > ```bash
+   > sudo apt-get update && sudo apt-get install -y poppler-utils
+   > ```
+   > For other operating systems, please refer to the installation instructions for `poppler`.
 
 3. Download the pre-trained models using one of the following options:
 

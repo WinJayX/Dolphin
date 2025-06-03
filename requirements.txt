@@ -95,3 +95,4 @@ watchfiles==1.0.5
 websockets==15.0.1
 zipp==3.21.0
 zstandard==0.23.0
+pdf2image
