@@ -315,15 +315,22 @@ def save_outputs(recognition_results, image_path, save_dir):
     """Save JSON and markdown outputs"""
     basename = os.path.splitext(os.path.basename(image_path))[0]
 
+    json_dir = os.path.join(save_dir, "recognition_json")
+    md_dir = os.path.join(save_dir, "markdown")
+
+    # Ensure output directories exist
+    os.makedirs(json_dir, exist_ok=True)
+    os.makedirs(md_dir, exist_ok=True)
+
     # Save JSON file
-    json_path = os.path.join(save_dir, "recognition_json", f"{basename}.json")
+    json_path = os.path.join(json_dir, f"{basename}.json")
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(recognition_results, f, ensure_ascii=False, indent=2)
 
     # Generate and save markdown file
     markdown_converter = MarkdownConverter()
     markdown_content = markdown_converter.convert(recognition_results)
-    markdown_path = os.path.join(save_dir, "markdown", f"{basename}.md")
+    markdown_path = os.path.join(md_dir, f"{basename}.md")
     with open(markdown_path, "w", encoding="utf-8") as f:
         f.write(markdown_content)
 
