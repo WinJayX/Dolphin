@@ -14,6 +14,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 os.environ.setdefault("PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION", "python")
 
 import torch
+from torch.nn import DataParallel
 from PIL import Image
 from transformers import PreTrainedTokenizerFast
 
@@ -94,6 +95,10 @@ class DOLPHIN:
             self.model.load_state_dict(ckpt, strict=True)
 
         self.model.to("cuda")
+        if torch.cuda.is_available() and torch.cuda.device_count() > 1:
+            print(f"Let's use {torch.cuda.device_count()} GPUs!")
+            self.model = DataParallel(self.model)
+
         self.model.eval()
         transform_args = {
             "input_size": self.swin_args["img_size"],
