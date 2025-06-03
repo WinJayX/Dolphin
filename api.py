@@ -1,5 +1,7 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException, Query
 from fastapi.responses import PlainTextResponse, JSONResponse
+from fastapi.openapi.docs import get_swagger_ui_html
+from fastapi.staticfiles import StaticFiles
 from omegaconf import OmegaConf
 import shutil
 import json # For reading json file content
@@ -25,13 +27,29 @@ logger = logging.getLogger(__name__)
 logger.info("Loading DOLPHIN model configuration...")
 cfg = OmegaConf.load("./config/Dolphin.yaml")
 
-# Create FastAPI app instance
-app = FastAPI()
+# Create FastAPI app instance, disabling default docs
+app = FastAPI(docs_url=None, redoc_url=None, title="DOLPHIN API")
 
 # Initialize DOLPHIN model
 logger.info("Initializing DOLPHIN model...")
 model = DOLPHIN(cfg)
 logger.info("DOLPHIN model initialized.")
+
+# Mount static files directory for Swagger UI
+# This should be done after app initialization and before routes that might conflict.
+# However, standard practice is often to mount it early.
+# For serving Swagger files, it must be available when /docs is hit.
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+@app.get("/docs", include_in_schema=False)
+async def custom_swagger_ui_html():
+    return get_swagger_ui_html(
+        openapi_url=app.openapi_url, # Use app.openapi_url
+        title=app.title + " - Swagger UI", # Use app.title
+        swagger_js_url="/static/swagger-ui-bundle.js",
+        swagger_css_url="/static/swagger-ui.css",
+        swagger_favicon_url="/static/favicon.png"
+    )
 
 # Example of how to potentially store in app state (though not strictly necessary for global)
 # app.state.model = model
@@ -155,7 +173,7 @@ async def process_file_endpoint(
                 file.file.close()
             except Exception as e:
                 logger.warning(f"Request {request_id}: Error closing uploaded file stream. Error: {e}", exc_info=True)
-        
+
         # Clean up the uploaded temporary file
         if upload_file_path and os.path.exists(upload_file_path):
             try:
