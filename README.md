@@ -105,16 +105,18 @@ This project includes a FastAPI application to serve the DOLPHIN model over an H
 2.  **Start the Uvicorn Server**:
     From the root of the project directory (where `api.py` is located), run the following command:
     ```bash
-    uvicorn api:app --reload
+    uvicorn api:app --host 0.0.0.0 --port 8080 --reload
     ```
     - `api:app` tells Uvicorn to find the `app` object (your FastAPI instance) in the `api.py` file.
+    - `--host 0.0.0.0` makes the server accessible from other devices on your network (use with caution). For local access only, you can use `127.0.0.1`.
+    - `--port 8080` changes the port from the default 8000 to 8080.
     - `--reload` enables auto-reloading, so the server will restart automatically when you make changes to the code. This is useful for development. For production, you might omit this.
 
 3.  **Access the API**:
-    Once the server is running, you can access it at:
-    -   **API root**: `http://127.0.0.1:8000/`
-    -   **Interactive API documentation (Swagger UI)**: `http://127.0.0.1:8000/docs`
-    -   **Alternative API documentation (ReDoc)**: `http://127.0.0.1:8000/redoc`
+    Once the server is running (assuming you used `--host 0.0.0.0 --port 8080`), you can access it at:
+    -   **API root**: `http://127.0.0.1:8080/` (or `http://<your_machine_ip>:8080/` if accessing from another device)
+    -   **Interactive API documentation (Swagger UI)**: `http://127.0.0.1:8080/docs`
+    -   **Alternative API documentation (ReDoc)**: `http://127.0.0.1:8080/redoc`
 
     You can use the `/docs` endpoint to interactively test the API, including the file upload and processing endpoint.
 
