@@ -172,7 +172,10 @@ class DOLPHIN:
         for i in range(0, image_tensor.shape[0], max_batch_size):
             image_tensor_batch = image_tensor[i : i + max_batch_size]
             prompt_ids_batch = prompt_ids[i : i + max_batch_size]
-            model_output = self.model.inference(image_tensors=image_tensor_batch, prompt_ids=prompt_ids_batch)
+            if isinstance(self.model, DataParallel):
+                model_output = self.model.module.inference(image_tensors=image_tensor_batch, prompt_ids=prompt_ids_batch)
+            else:
+                model_output = self.model.inference(image_tensors=image_tensor_batch, prompt_ids=prompt_ids_batch)
             model_output_batch.append(model_output)
         model_output = {}
         for k, v in model_output_batch[0].items():
