@@ -1,3 +1,33 @@
+# Dolphin
+
+![GitHub stars](https://img.shields.io/github/stars/winjayx/Dolphin?style=social)
+![GitHub forks](https://img.shields.io/github/forks/winjayx/Dolphin?style=social)
+![GitHub issues](https://img.shields.io/github/issues/winjayx/Dolphin)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/winjayx/Dolphin)
+
+## 🚀 Features
+
+- Modern and clean design
+- Easy to use and configure
+- Well documented
+- Active development
+
+## 📖 Documentation
+
+This repository contains useful resources and tools.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+⭐ If you found this project helpful, please give it a star!
+
 <div align="center">
   <img src="./assets/dolphin.png" width="300">
 </div>
@@ -224,3 +254,4 @@ If you find this code useful for your research, please use the following BibTeX 
 
 
 <!-- Achievement update: 2025-10-23 10:52:22.963555 -->
+
